@@ -1,5 +1,9 @@
 import DialogResult from './dialog-result';
 
+function inherit(parent, extra) {
+    return angular.extend(Object.create(parent), extra);
+}
+
 export function DialogProvider() {
     var dialogs = {};
 

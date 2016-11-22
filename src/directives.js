@@ -1,5 +1,13 @@
 import DialogResult from './dialog-result';
 
+function attach(element, event, handler) {
+    element.addEventListener(event, handler);
+
+    return function() {
+        element.removeEventListener(event, handler);
+    };
+}
+
 DialogDirective.$inject = ['$document', '$modalDialog'];
 export function DialogDirective($document, $modalDialog) {
     return {
@@ -81,7 +89,7 @@ export function DialogDirective($document, $modalDialog) {
 }
 
 DialogDirectiveFill.$inject = [ '$modalDialog', '$controller', '$compile' ];
-export function DialogDirectiveFill($modalDialog, $controller, $compile, DialogResult) {
+export function DialogDirectiveFill($modalDialog, $controller, $compile) {
     return {
         restrict: 'ECA',
         priority: -400,
