@@ -113,8 +113,7 @@ export function DialogDirectiveFill($modalDialog, $controller, $compile) {
                     scope.$on('$destroy', detach);
                 }
 
-                $element.html('<div class="modal-dialog-wrapper">' + (cancellable ? '<span class="modal-dialog-cancel" ng-click="cancel()"></span>' : '') + locals.$template + '</div>');
-
+                $element.html(locals.$template);
                 var link = $compile($element.contents());
 
                 if (current.controller) {
