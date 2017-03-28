@@ -3,7 +3,7 @@ import { DialogParamsProvider } from './src/dialog-params';
 import { DialogProvider } from './src/dialog';
 import { DialogDirective, DialogDirectiveFill } from './src/directives';
 
-let lib = angular.module('ng-modal-dialog', [])
+var lib = angular.module('ng-modal-dialog', [])
     .constant('DialogResult', DialogResult)
 
     .provider('$modalDialog', DialogProvider)
