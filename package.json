@@ -1,6 +1,6 @@
 {
   "name": "ng-modal-dialog",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Modal dialog framework to use in Angular 1.x",
   "main": "index.js",
   "scripts": {

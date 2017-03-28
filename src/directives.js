@@ -101,7 +101,9 @@ export function DialogDirectiveFill($modalDialog, $controller, $compile) {
                     elem = $element[0],
                     cancellable = !!current.cancellable;
 
-                scope.cancel = () => scope.close(DialogResult.Cancelled);
+                scope.cancel = function() { 
+					scope.close(DialogResult.Cancelled); 
+				};
                 
                 // Register click bindings if the dialog is cancellable
                 if (cancellable) {
