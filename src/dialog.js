@@ -20,7 +20,8 @@ export function DialogProvider() {
         var $modal = {
             dialogs: dialogs,
             current: null,
-            show: show
+            show: show,
+            close: close
         };
 
         return $modal;
@@ -57,6 +58,12 @@ export function DialogProvider() {
 
             return (last || prepared) &&
                 !$rootScope.$broadcast('$dialogChangeStart', prepared, last).defaultPrevented;
+        }
+
+        function close() {
+            if ($modal.current !== null) {
+                $modal.current.$destroy(DialogResult.Cancelled);
+            }
         }
 
         function show(name, params, callback) {

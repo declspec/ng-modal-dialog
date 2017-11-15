@@ -116,6 +116,10 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function inherit(parent, extra) {
+	    return angular.extend(Object.create(parent), extra);
+	}
+
 	function DialogProvider() {
 	    var dialogs = {};
 
@@ -132,7 +136,8 @@
 	        var $modal = {
 	            dialogs: dialogs,
 	            current: null,
-	            show: show
+	            show: show,
+	            close: close
 	        };
 
 	        return $modal;
@@ -164,6 +169,12 @@
 	            if (prepared) prepared.$$dialog = prepared;
 
 	            return (last || prepared) && !$rootScope.$broadcast('$dialogChangeStart', prepared, last).defaultPrevented;
+	        }
+
+	        function close() {
+	            if ($modal.current !== null) {
+	                $modal.current.$destroy(_dialogResult2.default.Cancelled);
+	            }
 	        }
 
 	        function show(name, params, callback) {
@@ -243,6 +254,14 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function attach(element, event, handler) {
+	    element.addEventListener(event, handler);
+
+	    return function () {
+	        element.removeEventListener(event, handler);
+	    };
+	}
+
 	DialogDirective.$inject = ['$document', '$modalDialog'];
 	function DialogDirective($document, $modalDialog) {
 	    return {
@@ -319,7 +338,7 @@
 	}
 
 	DialogDirectiveFill.$inject = ['$modalDialog', '$controller', '$compile'];
-	function DialogDirectiveFill($modalDialog, $controller, $compile, DialogResult) {
+	function DialogDirectiveFill($modalDialog, $controller, $compile) {
 	    return {
 	        restrict: 'ECA',
 	        priority: -400,
@@ -332,7 +351,7 @@
 	                    cancellable = !!current.cancellable;
 
 	                scope.cancel = function () {
-	                    return scope.close(DialogResult.Cancelled);
+	                    scope.close(_dialogResult2.default.Cancelled);
 	                };
 
 	                // Register click bindings if the dialog is cancellable
@@ -345,8 +364,7 @@
 	                    scope.$on('$destroy', detach);
 	                }
 
-	                $element.html('<div class="modal-dialog-wrapper">' + (cancellable ? '<span class="modal-dialog-cancel" ng-click="cancel()"></span>' : '') + locals.$template + '</div>');
-
+	                $element.html(locals.$template);
 	                var link = $compile($element.contents());
 
 	                if (current.controller) {
