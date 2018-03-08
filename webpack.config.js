@@ -1,18 +1,25 @@
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+
+const LibraryName = 'ng-modal-dialog';
+const MinLibraryName = `${LibraryName}.min`;
 
 module.exports = {
     entry: {
-        'ng-modal-dialog': './index.js',
-        'ng-modal-dialog.min': './index.js'
+        [LibraryName]: './src/lib.js',
+        [MinLibraryName]: './src/lib.js'
     },
 
     output: {
-        path: './dist',
-        filename: '[name].js'
+        path: path.resolve('./bin'),
+        publicPath: 'bin/',
+        filename: '[name].js',
+        library: LibraryName,
+        libraryTarget: 'umd'
     },
 
     resolve: {
-        extensions: [ '', '.webpack.js', '.web.js', '.js' ]
+        extensions: [ '.webpack.js', '.web.js', '.js' ]
     },
 
     module: {
@@ -20,7 +27,7 @@ module.exports = {
             { 
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 query: {
                     presets: ['es2015']
                 }
